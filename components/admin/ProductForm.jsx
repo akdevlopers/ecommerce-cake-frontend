@@ -1,14 +1,38 @@
 "use client";
 
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { ArrowDown, ArrowUp, ImagePlus, Link2, Loader2, Plus, Save, Trash2, X } from "lucide-react";
-import { adminApi, fileToUploadPayload, toPaise, toRupees } from "@/lib/admin";
+import { adminApi, dataUrlToUploadPayload, fileToUploadPayload, toPaise, toRupees } from "@/lib/admin";
 import { cn } from "@/lib/format";
 import { useUi } from "@/store/ui";
 
 const MAX_IMAGES = 5;
+
+/** Friendly message for a failed upload (timeouts and crashes come back without a JSON body). */
+function uploadError(e) {
+  if (e?.status === 0) return "Upload failed: could not reach the server. Please try again.";
+  if (e?.status >= 500 || e?.code === "UNKNOWN") return "Upload failed on the server. Please try again in a moment.";
+  return e?.message || "Upload failed";
+}
+
+/**
+ * Admin preview. A plain <img> (not next/image) so any stored link previews, and a
+ * link that no longer works shows "Broken" instead of an empty box.
+ */
+function Thumb({ src }) {
+  const [broken, setBroken] = useState(false);
+  if (broken) {
+    return (
+      <div className="flex h-full w-full flex-col items-center justify-center gap-1 bg-red-50 p-2 text-center text-[11px] text-red-700">
+        <span className="font-semibold">Broken</span>
+        <span className="line-clamp-2 break-all opacity-70">{src}</span>
+      </div>
+    );
+  }
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img src={src} alt="" loading="lazy" className="h-full w-full object-cover" onError={() => setBroken(true)} />;
+}
 
 const blank = {
   name: "",
@@ -81,30 +105,60 @@ export default function ProductForm({ product }) {
       return;
     }
     setUploading(true);
+    let failed = 0;
     try {
       for (const file of list) {
-        const payload = await fileToUploadPayload(file);
-        const { url } = await adminApi("/uploads", { method: "POST", body: JSON.stringify(payload) });
-        setForm((f) => ({ ...f, images: [...f.images, url].slice(0, MAX_IMAGES) }));
+        try {
+          const payload = await fileToUploadPayload(file);
+          const { url } = await adminApi("/uploads", { method: "POST", body: JSON.stringify(payload) });
+          setForm((f) => ({ ...f, images: [...f.images, url].slice(0, MAX_IMAGES) }));
+          setErrors((e) => ({ ...e, images: "" }));
+        } catch (e) {
+          failed += 1;
+          toast(`${file.name}: ${uploadError(e)}`, "error");
+        }
       }
-      setErrors((e) => ({ ...e, images: "" }));
-    } catch (e) {
-      toast(e.message, "error");
+      if (failed && list.length > 1) toast(`${list.length - failed} of ${list.length} images uploaded`, "error");
     } finally {
       setUploading(false);
       if (fileRef.current) fileRef.current.value = "";
     }
   }
 
-  function addUrl() {
-    const url = urlInput.trim();
-    if (!/^https?:\/\//.test(url)) {
-      toast("Enter a full image URL starting with http(s)://", "error");
+  // Pasted links are downloaded by the API and stored in our S3 bucket, so the
+  // product never depends on another website's image.
+  async function addUrl() {
+    let url = urlInput.trim().replace(/^["']|["']$/g, "");
+    if (!url) return;
+    // A path on this computer can't be fetched by the server: open the file picker instead.
+    if (/^(file:|[a-z]:[\\/]|\\\\|\/(users|home)\/)/i.test(url)) {
+      toast("That is a file on your computer. Use the Upload box to choose it.", "error");
+      fileRef.current?.click();
       return;
     }
-    if (form.images.length >= MAX_IMAGES) return;
-    set("images", [...form.images, url]);
-    setUrlInput("");
+    if (/^\/\//.test(url)) url = `https:${url}`;
+    else if (!/^(https?:|data:)/i.test(url) && /^[\w-]+(\.[\w-]+)+(\/|$)/.test(url)) url = `https://${url}`;
+    if (!/^(https?:\/\/|data:image\/)/i.test(url)) {
+      toast("Paste an image link (https://…) or use the Upload box", "error");
+      return;
+    }
+    if (form.images.length >= MAX_IMAGES) {
+      toast(`Maximum ${MAX_IMAGES} images`, "error");
+      return;
+    }
+    setUploading(true);
+    try {
+      // data:image/... links (e.g. copied from Google Images) are uploaded like a file.
+      const payload = /^data:/i.test(url) ? await dataUrlToUploadPayload(url) : { url };
+      const { url: saved } = await adminApi("/uploads", { method: "POST", body: JSON.stringify(payload) });
+      setForm((f) => ({ ...f, images: [...f.images, saved].slice(0, MAX_IMAGES) }));
+      setErrors((e) => ({ ...e, images: "" }));
+      setUrlInput("");
+    } catch (e) {
+      toast(uploadError(e), "error");
+    } finally {
+      setUploading(false);
+    }
   }
 
   const moveImage = (i, dir) => {
@@ -289,7 +343,7 @@ export default function ProductForm({ product }) {
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5">
             {form.images.map((src, i) => (
               <div key={src + i} className="group relative aspect-square overflow-hidden rounded-xl bg-cream">
-                <Image src={src} alt="" fill sizes="160px" className="object-cover" />
+                <Thumb src={src} />
                 {i === 0 && (
                   <span className="absolute left-1.5 top-1.5 rounded-full bg-ink px-2 py-0.5 text-[10px] text-white">
                     Main
@@ -345,14 +399,20 @@ export default function ProductForm({ product }) {
                   }}
                 />
               </div>
-              <button type="button" onClick={addUrl} className="btn-outline btn-sm">
-                Add
+              <button
+                type="button"
+                onClick={addUrl}
+                disabled={uploading || !urlInput.trim()}
+                className="btn-outline btn-sm disabled:opacity-50"
+              >
+                {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Add"}
               </button>
             </div>
           )}
           {errors.images && <p className="field-error">{errors.images}</p>}
           <p className="mt-2 text-xs text-ink-muted">
-            JPG, PNG or WEBP. Square photos look best. Images are resized automatically before upload.
+            JPG, PNG or WEBP. Square photos look best. Uploads are resized automatically; pasted links are copied to
+            our image storage. Remove any image marked “Broken” and upload it again.
           </p>
         </Card>
       </div>
