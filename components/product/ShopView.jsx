@@ -157,7 +157,7 @@ export default function ShopView({ products, categories, activeCategory }) {
               id="sort"
               value={sort}
               onChange={(e) => setSort(e.target.value)}
-              className="rounded-full border border-line bg-white px-4 py-2 text-sm text-ink outline-none"
+              className="rounded-full border border-line bg-white px-4 py-2 text-base text-ink outline-none sm:text-sm"
             >
               {SORTS.map((s) => (
                 <option key={s.value} value={s.value}>

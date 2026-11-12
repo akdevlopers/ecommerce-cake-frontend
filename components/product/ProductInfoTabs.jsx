@@ -18,9 +18,9 @@ export default function ProductInfoTabs({ product }) {
   const [active, setActive] = useState(tabs[0].id);
   const tab = tabs.find((t) => t.id === active);
   return (
-    <section className="container mt-20">
+    <section className="container mt-14 sm:mt-20">
       <div
-        className="no-scrollbar flex justify-start gap-8 overflow-x-auto border-b border-line md:justify-center"
+        className="no-scrollbar flex justify-start gap-6 overflow-x-auto border-b border-line sm:gap-8 md:justify-center"
         role="tablist"
       >
         {tabs.map((t) => (
@@ -30,7 +30,7 @@ export default function ProductInfoTabs({ product }) {
             aria-selected={t.id === active}
             onClick={() => setActive(t.id)}
             className={cn(
-              "-mb-px shrink-0 border-b-2 pb-4 text-lg font-medium transition",
+              "-mb-px shrink-0 whitespace-nowrap border-b-2 pb-3 text-base font-medium transition sm:pb-4 sm:text-lg",
               t.id === active ? "border-brand text-ink" : "border-transparent text-ink-muted hover:text-ink",
             )}
           >

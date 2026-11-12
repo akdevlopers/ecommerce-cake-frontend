@@ -57,7 +57,7 @@ export default function AdminDashboard() {
             <p className="p-6 text-sm">No paid orders yet.</p>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+              <table className="w-full whitespace-nowrap text-sm">
                 <thead className="bg-cream text-left text-xs uppercase tracking-wider text-ink-muted">
                   <tr>
                     <th className="px-5 py-3 font-medium">Order</th>

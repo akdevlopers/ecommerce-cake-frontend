@@ -105,7 +105,7 @@ export default function ProductOptions({ product, compact = false, onAdded }) {
 
       <div className="flex flex-wrap items-center gap-3">
         <QtyStepper value={qty} onChange={(q) => setQty(Math.max(1, Math.min(10, q)))} />
-        <button type="button" onClick={() => addToCart()} disabled={!product.inStock} className="btn-dark h-12 flex-1">
+        <button type="button" onClick={() => addToCart()} disabled={!product.inStock} className="btn-dark h-12 flex-1 whitespace-nowrap px-4 sm:px-7">
           <ShoppingBag className="h-4 w-4" />
           {product.inStock ? "Add to cart" : "Sold out"}
         </button>

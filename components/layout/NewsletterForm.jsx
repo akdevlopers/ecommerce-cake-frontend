@@ -38,7 +38,7 @@ export default function NewsletterForm({ dark = false, onDone }) {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Your email address"
           className={cn(
-            "min-w-0 flex-1 bg-transparent px-5 py-3 text-sm outline-none",
+            "min-w-0 flex-1 bg-transparent px-5 py-3 text-base outline-none sm:text-sm",
             dark ? "text-white placeholder:text-white/60" : "text-ink placeholder:text-ink-muted",
           )}
         />

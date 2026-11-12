@@ -35,13 +35,13 @@ export default function Header() {
         )}
       >
         <div
-          className={cn("container flex items-center justify-between gap-4 transition-all", scrolled ? "h-16" : "h-20")}
+          className={cn("container flex items-center justify-between gap-2 transition-all sm:gap-4", scrolled ? "h-16" : "h-[72px] sm:h-20")}
         >
           <button className="-ml-2 p-2 text-ink lg:hidden" onClick={() => setMobileOpen(true)} aria-label="Open menu">
             <Menu className="h-6 w-6" />
           </button>
 
-          <Logo className="lg:mr-6" />
+          <Logo className="mr-auto lg:mr-6" />
 
           <nav className="hidden items-center gap-8 lg:flex" aria-label="Main">
             {NAV.map((item) =>
@@ -84,7 +84,7 @@ export default function Header() {
             )}
           </nav>
 
-          <div className="flex items-center gap-1 sm:gap-2">
+          <div className="-mr-2 flex shrink-0 items-center sm:mr-0 sm:gap-2">
             <button
               onClick={() => setSearchOpen(true)}
               className="rounded-full p-2.5 text-ink transition hover:bg-blush hover:text-brand"

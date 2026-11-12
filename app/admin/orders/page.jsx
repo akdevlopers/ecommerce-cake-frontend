@@ -82,7 +82,7 @@ export default function AdminOrdersPage() {
 
       <div className="card overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+          <table className="w-full whitespace-nowrap text-sm">
             <thead className="bg-cream text-left text-xs uppercase tracking-wider text-ink-muted">
               <tr>
                 <th className="px-5 py-3 font-medium">Order</th>

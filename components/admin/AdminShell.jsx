@@ -114,7 +114,7 @@ export default function AdminShell({ children }) {
           <button onClick={() => setOpen(true)} className="p-2" aria-label="Open menu">
             <Menu className="h-5 w-5" />
           </button>
-          <span className="font-heading text-lg font-medium text-ink">Humuzz Desserts Admin</span>
+          <span className="truncate font-heading text-lg font-medium text-ink">Humuzz Desserts Admin</span>
         </header>
         <main className="mx-auto max-w-6xl p-4 md:p-8">{children}</main>
       </div>
@@ -125,9 +125,9 @@ export default function AdminShell({ children }) {
 
 export function AdminPageHeader({ title, subtitle, children }) {
   return (
-    <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+    <div className="mb-6 flex flex-wrap items-end justify-between gap-4 sm:mb-8">
       <div>
-        <h1 className="text-3xl">{title}</h1>
+        <h1 className="text-2xl sm:text-3xl">{title}</h1>
         {subtitle && <p className="mt-1 text-sm">{subtitle}</p>}
       </div>
       {children && <div className="flex flex-wrap items-center gap-2">{children}</div>}
