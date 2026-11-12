@@ -1,9 +1,10 @@
 "use client";
-import { useState } from "react";
+import { useId, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { api, ApiError } from "@/lib/api";
 import { cn } from "@/lib/format";
-export default function NewsletterForm({ dark = false, onDone }) {
+export default function NewsletterForm({ dark = false, compact = false, onDone }) {
+  const inputId = useId();
   const [email, setEmail] = useState("");
   const [state, setState] = useState("idle");
   const [error, setError] = useState("");
@@ -27,28 +28,28 @@ export default function NewsletterForm({ dark = false, onDone }) {
       <div
         className={cn("flex overflow-hidden rounded-full border", dark ? "border-white/30" : "border-line bg-white")}
       >
-        <label htmlFor="newsletter-email" className="sr-only">
+        <label htmlFor={inputId} className="sr-only">
           Email address
         </label>
         <input
-          id="newsletter-email"
+          id={inputId}
           type="email"
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Your email address"
           className={cn(
-            "min-w-0 flex-1 bg-transparent px-5 py-3 text-base outline-none sm:text-sm",
+            "min-w-0 flex-1 bg-transparent py-3 pl-5 pr-2 text-base outline-none sm:text-sm",
             dark ? "text-white placeholder:text-white/60" : "text-ink placeholder:text-ink-muted",
           )}
         />
         <button
           type="submit"
           disabled={state === "loading"}
-          className="m-1 flex items-center gap-1 rounded-full bg-brand px-4 text-xs font-medium uppercase tracking-wider text-white transition hover:bg-ink disabled:opacity-60"
+          className="m-1 flex shrink-0 items-center justify-center gap-1 rounded-full bg-brand px-4 text-xs font-medium uppercase tracking-wider text-white transition hover:bg-ink disabled:opacity-60"
           aria-label="Subscribe"
         >
-          <span className="hidden sm:inline">Subscribe</span>
+          {!compact && <span className="hidden sm:inline">Subscribe</span>}
           <ArrowRight className="h-4 w-4" />
         </button>
       </div>

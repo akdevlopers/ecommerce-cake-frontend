@@ -8,7 +8,7 @@ export default function Footer({ settings }) {
   return (
     <footer className="mt-16 bg-cream sm:mt-24">
       <div className="container grid grid-cols-2 gap-x-6 gap-y-10 py-12 sm:py-16 md:grid-cols-3 lg:grid-cols-12 lg:gap-12">
-        <div className="col-span-2 md:col-span-3 lg:col-span-4">
+        <div className="col-span-2 md:col-span-3 lg:col-span-3">
           <Logo />
           <p className="mt-5 max-w-sm text-sm">{SITE.description}</p>
           <ul className="mt-6 space-y-3 text-sm">
@@ -51,10 +51,12 @@ export default function Footer({ settings }) {
           </div>
         ))}
 
-        <div className="col-span-2 md:col-span-3 lg:col-span-2">
+        <div className="col-span-2 md:col-span-3 lg:col-span-3">
           <h2 className="mb-5 text-lg">Newsletter</h2>
           <p className="mb-4 text-sm">New cakes and offers, straight to your inbox.</p>
-          <NewsletterForm />
+          <div className="max-w-md">
+            <NewsletterForm compact />
+          </div>
           <div className="mt-6 flex gap-2">
             {[
               { href: SITE.instagram, icon: Instagram, label: "Instagram" },
@@ -77,7 +79,7 @@ export default function Footer({ settings }) {
       </div>
 
       <div className="border-t border-cream-dark">
-        <div className="container flex flex-col items-center justify-between gap-4 py-6 text-xs sm:flex-row">
+        <div className="container flex flex-col items-center justify-between gap-4 pb-24 pt-6 text-xs sm:flex-row sm:pb-6 sm:pr-24">
           <p className="text-center sm:text-left">
             © {new Date().getFullYear()} {settings.storeName || SITE.name}. All rights reserved.
           </p>
