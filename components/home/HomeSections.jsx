@@ -1,8 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Egg, Instagram, ShieldCheck, Truck, Wheat } from "lucide-react";
-import { BLOG_POSTS, FEATURES, INSTAGRAM, SITE, u } from "@/lib/site";
-import { formatDate } from "@/lib/format";
+import { FEATURES, INSTAGRAM, SITE, u } from "@/lib/site";
 import SectionHeading from "@/components/ui/SectionHeading";
 const ICONS = { wheat: Wheat, egg: Egg, truck: Truck, shield: ShieldCheck };
 export function Features() {
@@ -55,40 +54,6 @@ export function CtaBanner() {
             </Link>
           </div>
         </div>
-      </div>
-    </section>
-  );
-}
-export function BlogTeaser() {
-  return (
-    <section className="container mt-24">
-      <SectionHeading eyebrow="From our kitchen" title="Latest from the Blog" />
-      <div className="grid gap-8 md:grid-cols-3">
-        {BLOG_POSTS.map((p) => (
-          <article key={p.slug} className="group">
-            <Link href={`/blog/${p.slug}`} className="relative block aspect-[3/2] overflow-hidden rounded-2xl">
-              <Image
-                src={p.image}
-                alt=""
-                fill
-                sizes="(min-width:768px) 400px, 100vw"
-                className="object-cover transition duration-700 group-hover:scale-105"
-              />
-              <span className="absolute left-4 top-4 rounded-full bg-white px-3 py-1 text-xs font-medium text-ink">
-                {formatDate(p.date)}
-              </span>
-            </Link>
-            <h3 className="mt-5 text-xl leading-snug">
-              <Link href={`/blog/${p.slug}`} className="hover:text-brand">
-                {p.title}
-              </Link>
-            </h3>
-            <p className="mt-2 text-sm">{p.excerpt}</p>
-            <Link href={`/blog/${p.slug}`} className="link-underline mt-4">
-              Read more
-            </Link>
-          </article>
-        ))}
       </div>
     </section>
   );

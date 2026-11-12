@@ -2,7 +2,7 @@ import { getProducts } from "@/lib/api";
 import HeroSlider from "@/components/home/HeroSlider";
 import PromoBanners from "@/components/home/PromoBanners";
 import ProductTabs from "@/components/home/ProductTabs";
-import { BlogTeaser, CtaBanner, Features, InstagramStrip } from "@/components/home/HomeSections";
+import { CtaBanner, Features, InstagramStrip } from "@/components/home/HomeSections";
 import SectionHeading from "@/components/ui/SectionHeading";
 import ProductCard from "@/components/product/ProductCard";
 export const revalidate = 60;
@@ -40,8 +40,6 @@ export default async function HomePage() {
           </div>
         </section>
       )}
-
-      <BlogTeaser />
       <InstagramStrip />
     </>
   );
