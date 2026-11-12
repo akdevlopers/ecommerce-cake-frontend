@@ -2,6 +2,7 @@ import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import PageBanner from "@/components/ui/PageBanner";
 import ContactForm from "@/components/layout/ContactForm";
 import { getSettings } from "@/lib/api";
+import { BUSINESS } from "@/lib/site";
 export const metadata = { title: "Contact Us" };
 export default async function ContactPage() {
   const s = await getSettings();
@@ -9,7 +10,7 @@ export default async function ContactPage() {
     { icon: MapPin, title: "Visit us", text: s.address },
     { icon: Phone, title: "Call us", text: s.phone, href: `tel:${s.phone.replace(/\s/g, "")}` },
     { icon: Mail, title: "Email", text: s.email, href: `mailto:${s.email}` },
-    { icon: Clock, title: "Open", text: "Every day, 9 AM – 10 PM" },
+    { icon: Clock, title: "Open", text: BUSINESS.hours },
   ].filter((i) => i.text);
   return (
     <>
