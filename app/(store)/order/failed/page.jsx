@@ -31,7 +31,7 @@ function FailedContent() {
       setLoading(false);
       if (e instanceof Error && e.message === "DISMISSED") return;
       if (e instanceof ApiError && e.code === "ALREADY_PAID") {
-        router.replace(`/track-order?order=${encodeURIComponent(orderNumber)}`);
+        router.replace(`/order/success?order=${encodeURIComponent(orderNumber)}`);
         return;
       }
       setError(e instanceof Error ? e.message : "Payment failed");

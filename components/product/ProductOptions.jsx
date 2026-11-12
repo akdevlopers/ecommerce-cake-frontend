@@ -120,7 +120,7 @@ export default function ProductOptions({ product, compact = false, onAdded }) {
         <p className="flex items-center gap-2 rounded-xl bg-cream px-4 py-3 text-sm">
           <Clock className="h-4 w-4 shrink-0 text-brand" />
           <span>
-            <strong className="text-ink">Estimate delivery:</strong> today if ordered before 4 PM, otherwise choose any
+            <strong className="text-ink">Delivery:</strong> order at least 24 hours ahead and choose your
             date at checkout.
           </span>
         </p>

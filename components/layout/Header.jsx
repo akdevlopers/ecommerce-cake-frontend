@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { ChevronDown, Menu, Search, ShoppingBag, Truck, X } from "lucide-react";
+import { ChevronDown, Menu, Search, ShoppingBag, X } from "lucide-react";
 import Logo from "@/components/ui/Logo";
 import { NAV } from "@/lib/site";
 import { cartCount, useCart } from "@/store/cart";
@@ -92,14 +92,6 @@ export default function Header() {
             >
               <Search className="h-5 w-5" />
             </button>
-            <Link
-              href="/track-order"
-              className="hidden rounded-full p-2.5 text-ink transition hover:bg-blush hover:text-brand sm:block"
-              aria-label="Track order"
-              title="Track order"
-            >
-              <Truck className="h-5 w-5" />
-            </Link>
             <button
               onClick={openDrawer}
               className="relative rounded-full p-2.5 text-ink transition hover:bg-blush hover:text-brand"

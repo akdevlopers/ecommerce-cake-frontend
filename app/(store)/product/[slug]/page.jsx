@@ -81,7 +81,7 @@ export default async function ProductPage({ params }) {
               <Wheat className="h-4 w-4 text-brand" /> Baked fresh today
             </li>
             <li className="flex items-center gap-2">
-              <Truck className="h-4 w-4 text-brand" /> Same-day delivery
+              <Truck className="h-4 w-4 text-brand" /> Book 24 hours ahead
             </li>
             <li className="flex items-center gap-2">
               <ShieldCheck className="h-4 w-4 text-brand" /> Secure Razorpay checkout

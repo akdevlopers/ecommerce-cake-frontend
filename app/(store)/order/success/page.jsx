@@ -32,8 +32,8 @@ function SuccessContent() {
         </div>
       )}
       <div className="mt-10 flex flex-wrap justify-center gap-3">
-        <Link href="/track-order" className="btn-outline">
-          Track order
+        <Link href="/contact" className="btn-outline">
+          Contact us
         </Link>
         <Link href="/shop" className="btn-dark">
           Continue shopping

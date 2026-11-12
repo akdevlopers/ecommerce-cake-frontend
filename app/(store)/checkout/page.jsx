@@ -47,7 +47,7 @@ export default function CheckoutPage() {
     [items],
   );
   useEffect(() => {
-    setForm((f) => ({ ...f, date: f.date || todayIST(), slot: f.slot || settings.deliverySlots[0] || "" }));
+    setForm((f) => ({ ...f, date: f.date || todayIST(1), slot: f.slot || settings.deliverySlots[0] || "" }));
   }, [settings.deliverySlots]);
   useEffect(() => {
     if (!hydrated || !cartPayload.length) return;
@@ -193,7 +193,7 @@ export default function CheckoutPage() {
                 <input
                   className="input"
                   type="date"
-                  min={todayIST()}
+                  min={todayIST(1)}
                   max={todayIST(60)}
                   value={form.date}
                   onChange={set("date")}

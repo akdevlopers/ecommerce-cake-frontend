@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Phone } from "lucide-react";
 export default function AnnouncementBar({ text, phone }) {
   if (!text && !phone) return null;
@@ -12,9 +11,6 @@ export default function AnnouncementBar({ text, phone }) {
               <Phone className="h-3.5 w-3.5" /> {phone}
             </a>
           )}
-          <Link href="/track-order" className="hover:text-brand-light">
-            Track your order
-          </Link>
         </div>
       </div>
     </div>

@@ -12,7 +12,7 @@ export default function ProductInfoTabs({ product }) {
     {
       id: "delivery",
       label: "Delivery & Care",
-      body: "We deliver in the time slot you choose at checkout. Orders before 4 PM can be delivered the same day.\n\nKeep the cake refrigerated and take it out 20–30 minutes before serving. Best enjoyed within 48 hours.",
+      body: "We deliver in the time slot you choose at checkout. Please order at least 24 hours before your delivery time.\n\nKeep the cake refrigerated and take it out 20–30 minutes before serving. Best enjoyed within 48 hours.",
     },
   ];
   const [active, setActive] = useState(tabs[0].id);
