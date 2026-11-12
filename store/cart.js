@@ -43,7 +43,7 @@ export const useCart = create()(
       openDrawer: () => set({ drawerOpen: true }),
       closeDrawer: () => set({ drawerOpen: false }),
     }),
-    { name: "sweetcrumbs-cart", partialize: (s) => ({ items: s.items }) },
+    { name: "humuzzdesserts-cart", partialize: (s) => ({ items: s.items }) },
   ),
 );
 export const cartCount = (items) => items.reduce((n, i) => n + i.qty, 0);

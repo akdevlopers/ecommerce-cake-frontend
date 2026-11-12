@@ -34,7 +34,7 @@ export default function AboutPage() {
           <p className="eyebrow">Our story</p>
           <h2 className="mb-6 mt-3 text-4xl leading-tight md:text-5xl">Baking happiness, one cake at a time</h2>
           <p className="mb-4">
-            Sweet Crumbs started in a tiny home kitchen with one oven and a lot of love for good cake. Today our team of
+            Humuzz Desserts started in a tiny home kitchen with one oven and a lot of love for good cake. Today our team of
             bakers and decorators makes hundreds of celebration cakes every week — still by hand, still fresh every
             morning.
           </p>

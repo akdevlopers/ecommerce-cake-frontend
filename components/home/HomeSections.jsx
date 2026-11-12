@@ -97,7 +97,7 @@ export function InstagramStrip() {
   return (
     <section className="mt-24">
       <div className="container mb-8 text-center">
-        <p className="eyebrow mb-2">@sweetcrumbs</p>
+        <p className="eyebrow mb-2">@humuzzdesserts</p>
         <h2 className="text-3xl">Follow us on Instagram</h2>
       </div>
       <div className="grid grid-cols-3 md:grid-cols-6">

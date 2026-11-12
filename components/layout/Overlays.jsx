@@ -7,7 +7,7 @@ import { useSettings } from "./SettingsProvider";
 import NewsletterForm from "./NewsletterForm";
 import { u } from "@/lib/site";
 import { cn } from "@/lib/format";
-const POPUP_KEY = "sweetcrumbs-newsletter-dismissed";
+const POPUP_KEY = "humuzzdesserts-newsletter-dismissed";
 /** Newsletter popup, shown once per browser after a short delay. */
 export function NewsletterPopup() {
   const [open, setOpen] = useState(false);

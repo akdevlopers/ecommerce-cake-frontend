@@ -38,7 +38,7 @@ export default function AdminLoginPage() {
         <div className="mb-8 text-center">
           <CakeMark className="mx-auto h-14 w-14" />
           <h1 className="mt-4 text-2xl">Admin login</h1>
-          <p className="mt-1 text-sm">Sweet Crumbs store dashboard</p>
+          <p className="mt-1 text-sm">Humuzz Desserts store dashboard</p>
         </div>
         <label className="mb-4 block">
           <span className="label">Email</span>

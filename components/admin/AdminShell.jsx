@@ -56,7 +56,7 @@ export default function AdminShell({ children }) {
       <Link href="/admin" className="flex items-center gap-2.5 px-6 py-6">
         <CakeMark className="h-9 w-9" />
         <span>
-          <span className="block font-heading text-lg font-semibold text-ink">Sweet Crumbs</span>
+          <span className="block font-heading text-lg font-semibold text-ink">Humuzz Desserts</span>
           <span className="block font-accent text-[10px] uppercase tracking-[0.25em] text-ink-muted">Admin</span>
         </span>
       </Link>
@@ -114,7 +114,7 @@ export default function AdminShell({ children }) {
           <button onClick={() => setOpen(true)} className="p-2" aria-label="Open menu">
             <Menu className="h-5 w-5" />
           </button>
-          <span className="font-heading text-lg font-medium text-ink">Sweet Crumbs Admin</span>
+          <span className="font-heading text-lg font-medium text-ink">Humuzz Desserts Admin</span>
         </header>
         <main className="mx-auto max-w-6xl p-4 md:p-8">{children}</main>
       </div>
