@@ -41,9 +41,15 @@ export default function ProductCard({ product, priority = false }) {
           {off > 0 && (
             <span className="rounded-full bg-brand px-2.5 py-1 text-[11px] font-semibold text-white">-{off}%</span>
           )}
-          {product.bestSeller && (
-            <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-semibold text-ink">Bestseller</span>
-          )}
+          {(product.highlights || []).slice(0, 2).map((h) => (
+            <span
+              key={h.id}
+              className="w-fit rounded-full px-2.5 py-1 text-[11px] font-semibold text-white"
+              style={{ background: h.color }}
+            >
+              {h.name}
+            </span>
+          ))}
         </div>
         {!product.inStock && (
           <span className="absolute right-3 top-3 rounded-full bg-ink px-2.5 py-1 text-[11px] font-semibold text-white">
@@ -62,7 +68,14 @@ export default function ProductCard({ product, priority = false }) {
           </button>
           <button
             disabled={!product.inStock}
-            onClick={() => add(product, { weightId: product.weights[0].id, eggless: false, message: "", qty: 1 })}
+            onClick={() => {
+              // Products with choices (colour, size…) open the quick view so the shopper can pick.
+              const variants = product.variants || [];
+              const buyable = variants.filter((v) => v.inStock);
+              if (variants.length === 1 && buyable.length === 1) {
+                add(product, { variantId: buyable[0].id, message: "", qty: 1 });
+              } else openQuickView(product);
+            }}
             className="flex h-10 items-center gap-2 rounded-full bg-white px-4 text-xs font-medium uppercase tracking-wider text-ink shadow-soft transition hover:bg-brand hover:text-white disabled:opacity-50"
             aria-label={`Add ${product.name} to cart`}
           >
@@ -73,9 +86,6 @@ export default function ProductCard({ product, priority = false }) {
       </div>
 
       <div className="mt-4 text-center">
-        {product.category && (
-          <p className="font-accent text-[11px] uppercase tracking-[0.2em] text-ink-muted">{product.category.name}</p>
-        )}
         <h3 className="mt-1 text-[17px] leading-snug">
           <Link href={href} className="transition hover:text-brand">
             {product.name}
@@ -84,7 +94,6 @@ export default function ProductCard({ product, priority = false }) {
         <div className="mt-1.5 flex justify-center">
           <Price price={product.price} comparePrice={product.comparePrice} />
         </div>
-        {product.egglessAvailable && <p className="mt-1 text-xs text-mint">Eggless available</p>}
       </div>
     </article>
   );

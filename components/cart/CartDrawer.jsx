@@ -79,8 +79,7 @@ export default function CartDrawer() {
                       </button>
                     </div>
                     <p className="text-xs text-ink-muted">
-                      {i.weightLabel} · {i.eggless ? "Eggless" : "With egg"}
-                      {i.message && <> · “{i.message}”</>}
+                      {[i.variantLabel, i.message && `“${i.message}”`].filter(Boolean).join(" · ")}
                     </p>
                     <div className="mt-2 flex items-center justify-between">
                       <QtyStepper value={i.qty} onChange={(q) => setQty(i.key, q)} small />

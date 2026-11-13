@@ -39,8 +39,7 @@ export default function AboutPage() {
             morning.
           </p>
           <p className="mb-8">
-            We use real butter, Belgian chocolate, fresh cream and seasonal fruit, and we never use pre-mixes. Almost
-            every cake on our menu can be made eggless, prepared on a separate station.
+            We use real butter, Belgian chocolate, fresh cream and seasonal fruit, and we never use pre-mixes.
           </p>
           <dl className="grid grid-cols-2 gap-6 sm:grid-cols-4">
             {STATS.map((s) => (

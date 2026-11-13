@@ -7,13 +7,13 @@ export const useCart = create()(
     (set) => ({
       items: [],
       drawerOpen: false,
-      add: (p, { weightId, eggless, message, qty }) =>
+      add: (p, { variantId, message = "", qty = 1 }) =>
         set((s) => {
-          const w = p.weights.find((x) => x.id === weightId) || p.weights[0];
+          const v = p.variants.find((x) => x.id === variantId) || p.variants[0];
           const msg = message.trim();
-          const key = `${p.id}-${w.id}-${eggless ? 1 : 0}-${msg}`;
+          const key = `${p.id}-${v.id}-${msg}`;
           const existing = s.items.find((i) => i.key === key);
-          const unitPrice = w.price + (eggless ? p.egglessExtra : 0);
+          const unitPrice = v.price;
           const items = existing
             ? s.items.map((i) => (i.key === key ? { ...i, qty: Math.min(MAX_QTY, i.qty + qty), unitPrice } : i))
             : [
@@ -23,10 +23,9 @@ export const useCart = create()(
                   productId: p.id,
                   slug: p.slug,
                   name: p.name,
-                  image: p.images[0] || "",
-                  weightId: w.id,
-                  weightLabel: w.label,
-                  eggless,
+                  image: v.image || p.images[0] || "",
+                  variantId: v.id,
+                  variantLabel: v.label,
                   message: msg,
                   qty: Math.min(MAX_QTY, qty),
                   unitPrice,
@@ -43,7 +42,22 @@ export const useCart = create()(
       openDrawer: () => set({ drawerOpen: true }),
       closeDrawer: () => set({ drawerOpen: false }),
     }),
-    { name: "humuzzdesserts-cart", partialize: (s) => ({ items: s.items }) },
+    {
+      name: "humuzzdesserts-cart",
+      version: 1,
+      partialize: (s) => ({ items: s.items }),
+      // v0 carts stored weightId/weightLabel/eggless. Sizes became variants with the same ids.
+      migrate: (state, version) => {
+        if (version < 1 && state?.items) {
+          state.items = state.items.map(({ weightId, weightLabel, eggless, ...i }) => ({
+            ...i,
+            variantId: i.variantId ?? weightId,
+            variantLabel: i.variantLabel ?? weightLabel ?? "",
+          }));
+        }
+        return state;
+      },
+    },
   ),
 );
 export const cartCount = (items) => items.reduce((n, i) => n + i.qty, 0);

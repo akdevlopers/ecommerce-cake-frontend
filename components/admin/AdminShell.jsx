@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { ExternalLink, LayoutDashboard, LogOut, Mail, Menu, Package, Settings, ShoppingCart, X } from "lucide-react";
-import { CakeMark } from "@/components/ui/Logo";
+import { ExternalLink, Layers, Sparkles, LayoutDashboard, LogOut, Mail, Menu, Package, Settings, ShoppingCart, X } from "lucide-react";
+import { BrandMark } from "@/components/ui/Logo";
+import { api } from "@/lib/api";
 import { Toaster } from "@/components/layout/Overlays";
 import { getToken, setToken } from "@/lib/admin";
 import { cn } from "@/lib/format";
@@ -12,6 +13,8 @@ import { cn } from "@/lib/format";
 const NAV = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/products", label: "Products", icon: Package },
+  { href: "/admin/variants", label: "Variant Master", icon: Layers },
+  { href: "/admin/highlights", label: "Highlights", icon: Sparkles },
   { href: "/admin/orders", label: "Orders", icon: ShoppingCart },
   { href: "/admin/messages", label: "Messages", icon: Mail },
   { href: "/admin/settings", label: "Settings", icon: Settings },
@@ -23,6 +26,17 @@ export default function AdminShell({ children }) {
   const [ready, setReady] = useState(false);
   const [open, setOpen] = useState(false);
   const isLogin = pathname === "/admin/login";
+  const [brand, setBrand] = useState({ storeName: "", logoUrl: null });
+
+  // Store name + logo from Settings; the Settings page sends "brand-updated" after saving.
+  useEffect(() => {
+    api("/settings")
+      .then((s) => setBrand({ storeName: s.storeName, logoUrl: s.logoUrl }))
+      .catch(() => {});
+    const onUpdate = (e) => setBrand(e.detail);
+    window.addEventListener("brand-updated", onUpdate);
+    return () => window.removeEventListener("brand-updated", onUpdate);
+  }, []);
 
   useEffect(() => {
     if (isLogin) {
@@ -54,9 +68,9 @@ export default function AdminShell({ children }) {
   const sidebar = (
     <div className="flex h-full flex-col">
       <Link href="/admin" className="flex items-center gap-2.5 px-6 py-6">
-        <CakeMark className="h-9 w-9" />
-        <span>
-          <span className="block font-heading text-lg font-semibold text-ink">Humuzz Desserts</span>
+        <BrandMark logoUrl={brand.logoUrl} className="h-9 w-9 shrink-0" />
+        <span className="min-w-0">
+          <span className="block truncate font-heading text-lg font-semibold text-ink">{brand.storeName || "Admin"}</span>
           <span className="block font-accent text-[10px] uppercase tracking-[0.25em] text-ink-muted">Admin</span>
         </span>
       </Link>

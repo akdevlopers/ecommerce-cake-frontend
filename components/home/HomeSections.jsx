@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Egg, Instagram, ShieldCheck, Truck, Wheat } from "lucide-react";
+import { Heart, Instagram, ShieldCheck, Truck, Wheat } from "lucide-react";
 import { FEATURES, INSTAGRAM, SITE, u } from "@/lib/site";
 import SectionHeading from "@/components/ui/SectionHeading";
-const ICONS = { wheat: Wheat, egg: Egg, truck: Truck, shield: ShieldCheck };
+const ICONS = { wheat: Wheat, heart: Heart, truck: Truck, shield: ShieldCheck };
 export function Features() {
   return (
     <section className="container mt-20">

@@ -28,7 +28,7 @@ export default function AdminProductsPage() {
     try {
       const updated = await adminApi(`/products/${p.id}`, {
         method: "PATCH",
-        body: JSON.stringify({ [field]: !p[field] }),
+        body: JSON.stringify({ [field]: !(field === "inStock" ? p.stockSwitch : p[field]) }),
       });
       setData((d) => ({ ...d, products: d.products.map((x) => (x.id === p.id ? updated : x)) }));
     } catch (e) {
@@ -67,7 +67,7 @@ export default function AdminProductsPage() {
             <thead className="bg-cream text-left text-xs uppercase tracking-wider text-ink-muted">
               <tr>
                 <th className="px-5 py-3 font-medium">Product</th>
-                <th className="px-5 py-3 font-medium">Category</th>
+                <th className="px-5 py-3 font-medium">Variants</th>
                 <th className="px-5 py-3 font-medium">Price from</th>
                 <th className="px-5 py-3 text-center font-medium">In stock</th>
                 <th className="px-5 py-3 text-center font-medium">Visible</th>
@@ -86,17 +86,24 @@ export default function AdminProductsPage() {
                         <Link href={`/admin/products/${p.id}`} className="font-medium text-ink hover:text-brand">
                           {p.name}
                         </Link>
-                        <div className="flex gap-1.5 text-[11px]">
-                          {p.bestSeller && <span className="text-brand">Bestseller</span>}
-                          {p.featured && <span className="text-mint">Featured</span>}
+                        <div className="mt-0.5 flex flex-wrap gap-1">
+                          {(p.highlights || []).map((h) => (
+                            <span
+                              key={h.id}
+                              className="rounded-full px-2 py-0.5 text-[10px] font-semibold text-white"
+                              style={{ background: h.color }}
+                            >
+                              {h.name}
+                            </span>
+                          ))}
                         </div>
                       </div>
                     </div>
                   </td>
-                  <td className="px-5 py-3">{p.category?.name || "—"}</td>
+                  <td className="px-5 py-3">{p.options.length ? `${p.variants.length} variant(s)` : "—"}</td>
                   <td className="px-5 py-3 font-medium text-ink">{money(p.price)}</td>
                   <td className="px-5 py-3 text-center">
-                    <Switch checked={p.inStock} onChange={() => toggle(p, "inStock")} label={`${p.name} in stock`} />
+                    <Switch checked={p.stockSwitch} onChange={() => toggle(p, "inStock")} label={`${p.name} in stock`} />
                   </td>
                   <td className="px-5 py-3 text-center">
                     <Switch checked={p.active} onChange={() => toggle(p, "active")} label={`${p.name} visible`} />

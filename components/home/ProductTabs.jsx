@@ -1,41 +1,58 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-import { HOME_TABS } from "@/lib/site";
 import { cn } from "@/lib/format";
 import ProductCard from "@/components/product/ProductCard";
-export default function ProductTabs({ products }) {
-  const [tab, setTab] = useState(HOME_TABS[0].value);
-  const list = (
-    tab === "best" ? products.filter((p) => p.bestSeller) : products.filter((p) => p.category?.slug === tab)
-  ).slice(0, 8);
+
+const MAX_ITEMS = 8;
+
+/**
+ * Home page product tabs. Tabs come only from the admin: highlights with
+ * "Home page tab" switched on (and at least one product). With no tabs, the
+ * section simply shows the products.
+ */
+export default function ProductTabs({ products, extraTabs = [] }) {
+  const tabs = extraTabs
+    .map((h) => ({
+      key: `h${h.id}`,
+      label: h.name,
+      color: h.color,
+      items: products.filter((p) => (p.highlights || []).some((x) => x.id === h.id)),
+    }))
+    .filter((t) => t.items.length > 0);
+  const [active, setActive] = useState(tabs[0]?.key);
+  const current = tabs.find((t) => t.key === active) || tabs[0];
+  const list = (current ? current.items : products).slice(0, MAX_ITEMS);
+
   return (
     <div>
-      <div className="no-scrollbar -mx-4 mb-10 flex gap-2 overflow-x-auto px-4 md:justify-center" role="tablist">
-        {HOME_TABS.map((t) => (
-          <button
-            key={t.value}
-            role="tab"
-            aria-selected={tab === t.value}
-            onClick={() => setTab(t.value)}
-            className={cn(
-              "shrink-0 rounded-full border px-6 py-2.5 text-sm font-medium transition",
-              tab === t.value ? "border-ink bg-ink text-white" : "border-line text-ink hover:border-ink",
-            )}
-          >
-            {t.label}
-          </button>
+      {tabs.length > 0 && (
+        <div className="no-scrollbar -mx-4 mb-10 flex gap-2 overflow-x-auto px-4 md:justify-center" role="tablist">
+          {tabs.map((t) => {
+            const on = t.key === current.key;
+            return (
+              <button
+                key={t.key}
+                role="tab"
+                aria-selected={on}
+                onClick={() => setActive(t.key)}
+                // Tabs stay neutral (black when selected); highlight colours are used on the product badges.
+                className={cn(
+                  "shrink-0 rounded-full border px-6 py-2.5 text-sm font-medium transition",
+                  on ? "border-ink bg-ink text-white" : "border-line bg-white text-ink hover:border-ink",
+                )}
+              >
+                {t.label}
+              </button>
+            );
+          })}
+        </div>
+      )}
+      <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-7" role="tabpanel">
+        {list.map((p) => (
+          <ProductCard key={p.id} product={p} />
         ))}
       </div>
-      {list.length ? (
-        <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-7" role="tabpanel">
-          {list.map((p) => (
-            <ProductCard key={p.id} product={p} />
-          ))}
-        </div>
-      ) : (
-        <p className="py-10 text-center">New cakes coming soon in this category.</p>
-      )}
       <div className="mt-12 text-center">
         <Link href="/shop" className="btn-outline">
           All products

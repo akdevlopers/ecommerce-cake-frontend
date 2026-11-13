@@ -72,12 +72,7 @@ export default function AdminOrderDetailPage({ params }) {
                     <p className="font-medium text-ink">
                       {i.name} × {i.qty}
                     </p>
-                    <p>
-                      {i.weight} ·{" "}
-                      <span className={i.eggless ? "font-medium text-mint" : ""}>
-                        {i.eggless ? "EGGLESS" : "With egg"}
-                      </span>
-                    </p>
+                    {i.variant && <p>{i.variant}</p>}
                     {i.message && (
                       <p className="mt-1 inline-block rounded-lg bg-blush px-2 py-0.5 text-brand">
                         Message on cake: “{i.message}”

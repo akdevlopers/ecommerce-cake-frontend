@@ -39,8 +39,7 @@ export default function CheckoutPage() {
     () =>
       items.map((i) => ({
         productId: i.productId,
-        weightId: i.weightId,
-        eggless: i.eggless,
+        variantId: i.variantId,
         message: i.message,
         qty: i.qty,
       })),
@@ -236,8 +235,7 @@ export default function CheckoutPage() {
                 <div className="flex-1 text-sm">
                   <p className="font-medium text-ink">{i.name}</p>
                   <p className="text-xs text-ink-muted">
-                    {i.weightLabel} · {i.eggless ? "Eggless" : "With egg"}
-                    {i.message && ` · “${i.message}”`}
+                    {[i.variantLabel, i.message && `“${i.message}”`].filter(Boolean).join(" · ")}
                   </p>
                 </div>
                 <span className="text-sm text-ink">{money(i.unitPrice * i.qty)}</span>

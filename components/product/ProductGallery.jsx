@@ -2,8 +2,10 @@
 import Image from "next/image";
 import { useState } from "react";
 import { cn } from "@/lib/format";
-export default function ProductGallery({ images, name }) {
-  const [active, setActive] = useState(0);
+export default function ProductGallery({ images, name, active: controlled, onActiveChange }) {
+  const [own, setOwn] = useState(0);
+  const active = controlled ?? own;
+  const setActive = onActiveChange ?? setOwn;
   const [zoom, setZoom] = useState(null);
   const src = images[active] || images[0];
   return (

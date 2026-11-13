@@ -30,8 +30,7 @@ export default function OrderSummary({ order }) {
                 {i.name} × {i.qty}
               </p>
               <p className="text-ink-muted">
-                {i.weight} · {i.eggless ? "Eggless" : "With egg"}
-                {i.message && ` · “${i.message}”`}
+                {[i.variant, i.message && `“${i.message}”`].filter(Boolean).join(" · ")}
               </p>
             </div>
             <span className="text-sm text-ink">{money(i.unitPrice * i.qty)}</span>

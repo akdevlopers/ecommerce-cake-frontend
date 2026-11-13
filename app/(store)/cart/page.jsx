@@ -62,9 +62,7 @@ export default function CartPage() {
                         >
                           {i.name}
                         </Link>
-                        <p className="text-sm text-ink-muted">
-                          {i.weightLabel} · {i.eggless ? "Eggless" : "With egg"}
-                        </p>
+                        {i.variantLabel && <p className="text-sm text-ink-muted">{i.variantLabel}</p>}
                         {i.message && <p className="text-sm text-ink-muted">Message: “{i.message}”</p>}
                         <p className="text-sm">{money(i.unitPrice)} each</p>
                       </div>

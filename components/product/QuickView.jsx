@@ -63,9 +63,16 @@ export default function QuickView() {
           )}
         </div>
         <div className="p-6 md:p-8">
-          {product.category && <p className="eyebrow">{product.category.name}</p>}
-          <h2 className="mb-4 mt-2 text-3xl">{product.name}</h2>
-          <ProductOptions product={product} compact onAdded={close} />
+          <h2 className="mb-4 text-3xl">{product.name}</h2>
+          <ProductOptions
+            product={product}
+            compact
+            onAdded={close}
+            onVariantChange={(v) => {
+              const i = v?.image ? product.images.indexOf(v.image) : -1;
+              if (i >= 0) setActive(i);
+            }}
+          />
           <Link href={`/product/${product.slug}`} onClick={close} className="link-underline mt-6">
             View full details
           </Link>

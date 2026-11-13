@@ -2,8 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronRight, ShieldCheck, Truck, Wheat } from "lucide-react";
 import { getProduct } from "@/lib/api";
-import ProductGallery from "@/components/product/ProductGallery";
-import ProductOptions from "@/components/product/ProductOptions";
+import ProductDetail from "@/components/product/ProductDetail";
 import ProductInfoTabs from "@/components/product/ProductInfoTabs";
 import ProductCard from "@/components/product/ProductCard";
 import SectionHeading from "@/components/ui/SectionHeading";
@@ -52,14 +51,6 @@ export default async function ProductPage({ params }) {
                 Shop
               </Link>
             </li>
-            {product.category && (
-              <li className="flex items-center gap-1.5">
-                <ChevronRight className="h-3.5 w-3.5" />
-                <Link href={`/category/${product.category.slug}`} className="hover:text-brand">
-                  {product.category.name}
-                </Link>
-              </li>
-            )}
             <li className="flex items-center gap-1.5">
               <ChevronRight className="h-3.5 w-3.5" />
               <span className="text-ink" aria-current="page">
@@ -70,12 +61,7 @@ export default async function ProductPage({ params }) {
         </nav>
       </div>
 
-      <section className="container mt-10 grid gap-10 lg:grid-cols-2 lg:gap-16">
-        <ProductGallery images={product.images} name={product.name} />
-        <div>
-          {product.category && <p className="eyebrow">{product.category.name}</p>}
-          <h1 className="mb-5 mt-2 text-4xl leading-tight md:text-5xl">{product.name}</h1>
-          <ProductOptions product={product} />
+      <ProductDetail product={product}>
           <ul className="mt-8 grid gap-3 border-t border-line pt-6 text-sm sm:grid-cols-3">
             <li className="flex items-center gap-2">
               <Wheat className="h-4 w-4 text-brand" /> Baked fresh today
@@ -87,8 +73,7 @@ export default async function ProductPage({ params }) {
               <ShieldCheck className="h-4 w-4 text-brand" /> Secure Razorpay checkout
             </li>
           </ul>
-        </div>
-      </section>
+      </ProductDetail>
 
       <ProductInfoTabs product={product} />
 
