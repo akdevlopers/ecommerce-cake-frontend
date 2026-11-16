@@ -14,21 +14,24 @@ export default async function PolicyPage({ params }) {
   const policy = POLICIES[params.slug];
   if (!policy) notFound();
   const s = await getSettings();
+  const storeName = s.storeName || BUSINESS.name;
+  /** Replaces the {store} token in policy text with the name from Admin > Settings. */
+  const t = (text) => text.replaceAll("{store}", storeName);
   return (
     <>
       <PageBanner title={policy.title} crumbs={[{ label: policy.title }]} />
       <article className="prose-cake container mt-14 max-w-3xl">
-        {policy.intro && <p>{policy.intro}</p>}
+        {policy.intro && <p>{t(policy.intro)}</p>}
         {policy.sections.map((sec) => (
           <section key={sec.heading}>
-            <h2>{sec.heading}</h2>
+            <h2>{t(sec.heading)}</h2>
             {sec.body?.map((p, i) => (
-              <p key={i}>{p}</p>
+              <p key={i}>{t(p)}</p>
             ))}
             {sec.list && (
               <ul>
                 {sec.list.map((li, i) => (
-                  <li key={i}>{li}</li>
+                  <li key={i}>{t(li)}</li>
                 ))}
               </ul>
             )}
@@ -44,7 +47,7 @@ export default async function PolicyPage({ params }) {
             page.
           </p>
           <address className="rounded-2xl bg-cream p-5 text-sm not-italic leading-relaxed">
-            <strong className="text-ink">{s.storeName || BUSINESS.name}</strong>
+            <strong className="text-ink">{storeName}</strong>
             <br />
             {BUSINESS.addressLines.map((line) => (
               <span key={line}>

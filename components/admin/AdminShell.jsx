@@ -67,12 +67,13 @@ export default function AdminShell({ children }) {
 
   const sidebar = (
     <div className="flex h-full flex-col">
-      <Link href="/admin" className="flex items-center gap-2.5 px-6 py-6">
-        <BrandMark logoUrl={brand.logoUrl} className="h-9 w-9 shrink-0" />
-        <span className="min-w-0">
-          <span className="block truncate font-heading text-lg font-semibold text-ink">{brand.storeName || "Admin"}</span>
-          <span className="block font-accent text-[10px] uppercase tracking-[0.25em] text-ink-muted">Admin</span>
-        </span>
+      <Link href="/admin" className="flex items-center px-6 py-6" aria-label="Admin dashboard">
+        {brand.logoUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={brand.logoUrl} alt={brand.storeName || "Logo"} className="h-14 w-auto max-w-[200px] object-contain" />
+        ) : (
+          <BrandMark className="h-14 w-14 shrink-0" />
+        )}
       </Link>
       <nav className="flex-1 space-y-1 px-3">
         {NAV.map(({ href, label, icon: Icon }) => (
@@ -128,7 +129,12 @@ export default function AdminShell({ children }) {
           <button onClick={() => setOpen(true)} className="p-2" aria-label="Open menu">
             <Menu className="h-5 w-5" />
           </button>
-          <span className="truncate font-heading text-lg font-medium text-ink">Humuzz Desserts Admin</span>
+          {brand.logoUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={brand.logoUrl} alt={brand.storeName || "Logo"} className="h-10 w-auto max-w-[160px] object-contain" />
+          ) : (
+            <BrandMark className="h-10 w-10 shrink-0" />
+          )}
         </header>
         <main className="mx-auto max-w-6xl p-4 md:p-8">{children}</main>
       </div>

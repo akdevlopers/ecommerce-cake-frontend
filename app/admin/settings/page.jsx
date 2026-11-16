@@ -98,7 +98,7 @@ export default function AdminSettingsPage() {
 
       <section className="card mb-6 p-6">
         <h2 className="mb-1 text-lg">Branding</h2>
-        <p className="mb-5 text-sm text-ink-muted">Shown in the store header, footer, browser tab and admin.</p>
+        <p className="mb-5 text-sm text-ink-muted">Your logo is shown in the store header, footer and admin.</p>
         <div className="grid gap-6 lg:grid-cols-[auto_1fr_1fr]">
           <div>
             <span className="label">Logo</span>
@@ -146,9 +146,11 @@ export default function AdminSettingsPage() {
             />
             {errors.logoUrl && <span className="field-error block">{errors.logoUrl}</span>}
           </div>
-          <div className="space-y-4">
+          <div>
             {field("Store name", "storeName", { maxLength: 80 })}
-            {field("Tagline (small text under the name)", "tagline", { maxLength: 80, placeholder: "e.g. Bakery & Cake Studio" })}
+            <p className="mt-2 text-xs text-ink-muted">
+              Not shown in the header/footer. Used in page text (About, Contact, policies), browser tab title and emails.
+            </p>
           </div>
           <div>
             <span className="label">Preview</span>

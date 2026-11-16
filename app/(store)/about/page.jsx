@@ -3,7 +3,8 @@ import Link from "next/link";
 import PageBanner from "@/components/ui/PageBanner";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { Features } from "@/components/home/HomeSections";
-import { u } from "@/lib/site";
+import { getSettings } from "@/lib/api";
+import { SITE, u } from "@/lib/site";
 export const metadata = { title: "About Us" };
 const STATS = [
   { value: "8+", label: "Years baking" },
@@ -11,7 +12,9 @@ const STATS = [
   { value: "100%", label: "Fresh daily" },
   { value: "4.9★", label: "Customer rating" },
 ];
-export default function AboutPage() {
+export default async function AboutPage() {
+  const s = await getSettings();
+  const storeName = s.storeName || SITE.name;
   return (
     <>
       <PageBanner title="About Us" crumbs={[{ label: "About" }]} />
@@ -34,7 +37,7 @@ export default function AboutPage() {
           <p className="eyebrow">Our story</p>
           <h2 className="mb-6 mt-3 text-4xl leading-tight md:text-5xl">Baking happiness, one cake at a time</h2>
           <p className="mb-4">
-            Humuzz Desserts started in a tiny home kitchen with one oven and a lot of love for good cake. Today our team of
+            {storeName} started in a tiny home kitchen with one oven and a lot of love for good cake. Today our team of
             bakers and decorators makes hundreds of celebration cakes every week — still by hand, still fresh every
             morning.
           </p>
