@@ -9,7 +9,7 @@ export default function Footer({ settings }) {
     <footer className="mt-16 bg-cream sm:mt-24">
       <div className="container grid grid-cols-2 gap-x-6 gap-y-10 py-12 sm:py-16 md:grid-cols-3 lg:grid-cols-12 lg:gap-12">
         <div className="col-span-2 md:col-span-3 lg:col-span-3">
-          <Logo />
+          <Logo size="lg" />
           <p className="mt-5 max-w-sm text-sm">{SITE.description}</p>
           <ul className="mt-6 space-y-3 text-sm">
             {settings.address && (

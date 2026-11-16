@@ -136,7 +136,7 @@ export default function AdminSettingsPage() {
                 )}
               </div>
             </div>
-            <p className="mt-2 text-xs text-ink-muted">Square PNG/JPG works best.</p>
+            <p className="mt-2 text-xs text-ink-muted">Header &amp; footer show the logo only. Transparent PNG, any shape.</p>
             <input
               ref={logoRef}
               type="file"
@@ -153,19 +153,12 @@ export default function AdminSettingsPage() {
           <div>
             <span className="label">Preview</span>
             <div className="flex h-[124px] items-center rounded-2xl border border-line bg-white px-5">
-              <span className="flex min-w-0 items-center gap-2.5">
-                <BrandMark logoUrl={form.logoUrl} className="h-10 w-10 shrink-0" />
-                <span className="min-w-0 leading-none">
-                  <span className="block truncate font-heading text-2xl font-semibold tracking-tight text-ink">
-                    {form.storeName || "Store name"}
-                  </span>
-                  {form.tagline && (
-                    <span className="mt-1 block truncate font-accent text-[10px] uppercase tracking-[0.3em] text-ink-muted">
-                      {form.tagline}
-                    </span>
-                  )}
-                </span>
-              </span>
+              {form.logoUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={form.logoUrl} alt="" className="h-14 w-auto max-w-[240px] object-contain" />
+              ) : (
+                <BrandMark className="h-14 w-14 shrink-0" />
+              )}
             </div>
           </div>
         </div>

@@ -24,33 +24,23 @@ export function BrandMark({ logoUrl, className }) {
   return <img src={logoUrl} alt="" className={cn("object-contain", className)} />;
 }
 
-/** Logo + store name + tagline, all from Admin > Settings. */
-export default function Logo({ light = false, className, settings }) {
+/**
+ * Store logo only (no name/tagline text), uploaded in Admin > Settings.
+ * The image keeps its own aspect ratio, so wide logos display fully.
+ * `size` = "md" (header) | "lg" (footer).
+ */
+export default function Logo({ className, settings, size = "md" }) {
   const fromContext = useSettings();
-  const { storeName, tagline, logoUrl } = settings || fromContext;
+  const { storeName, logoUrl } = settings || fromContext;
+  const height = size === "lg" ? "h-16 sm:h-20" : "h-12 sm:h-14";
   return (
-    <Link href="/" className={cn("flex min-w-0 items-center gap-2 sm:gap-2.5", className)} aria-label={`${storeName} home`}>
-      <BrandMark logoUrl={logoUrl} className="h-9 w-9 shrink-0 sm:h-10 sm:w-10" />
-      <span className="min-w-0 whitespace-nowrap leading-none">
-        <span
-          className={cn(
-            "block truncate font-heading text-lg font-semibold tracking-tight min-[400px]:text-xl sm:text-2xl",
-            light ? "text-white" : "text-ink",
-          )}
-        >
-          {storeName}
-        </span>
-        {tagline && (
-          <span
-            className={cn(
-              "mt-0.5 block truncate font-accent text-[8px] uppercase tracking-[0.2em] min-[400px]:text-[9px] sm:text-[10px] sm:tracking-[0.3em]",
-              light ? "text-white/70" : "text-ink-muted",
-            )}
-          >
-            {tagline}
-          </span>
-        )}
-      </span>
+    <Link href="/" className={cn("flex shrink-0 items-center", className)} aria-label={`${storeName || "Store"} home`}>
+      {logoUrl ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={logoUrl} alt={storeName || "Logo"} className={cn("w-auto max-w-[200px] object-contain sm:max-w-[240px]", height)} />
+      ) : (
+        <CakeMark className={cn("aspect-square w-auto", height)} />
+      )}
     </Link>
   );
 }
