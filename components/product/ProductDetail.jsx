@@ -6,9 +6,9 @@ import ProductOptions from "./ProductOptions";
 export default function ProductDetail({ product, children }) {
   const [active, setActive] = useState(0);
   return (
-    <section className="container mt-10 grid gap-10 lg:grid-cols-2 lg:gap-16">
+    <section className="container mt-6 grid grid-cols-1 gap-8 md:mt-10 lg:grid-cols-2 lg:gap-16">
       <ProductGallery images={product.images} name={product.name} active={active} onActiveChange={setActive} />
-      <div>
+      <div className="min-w-0">
         {product.highlights?.length > 0 && (
           <div className="mb-3 flex flex-wrap gap-2">
             {(product.highlights || []).map((h) => (
@@ -22,7 +22,7 @@ export default function ProductDetail({ product, children }) {
             ))}
           </div>
         )}
-        <h1 className="mb-5 text-4xl leading-tight md:text-5xl">{product.name}</h1>
+        <h1 className="mb-5 break-words text-3xl leading-tight sm:text-4xl md:text-5xl">{product.name}</h1>
         <ProductOptions
           product={product}
           onVariantChange={(v) => {

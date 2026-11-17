@@ -103,7 +103,7 @@ export default function HeroSlider() {
 }
 function Decorations() {
   return (
-    <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+    <div className="pointer-events-none absolute inset-0 hidden md:block" aria-hidden="true">
       <svg className="absolute left-[4%] top-[12%] h-10 w-10 text-brand/30" viewBox="0 0 24 24">
         <path fill="currentColor" d="M12 2l2.4 7.2H22l-6 4.6 2.3 7.2-6.3-4.5-6.3 4.5 2.3-7.2-6-4.6h7.6z" />
       </svg>

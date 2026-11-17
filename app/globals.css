@@ -9,6 +9,17 @@
   }
   body {
     @apply bg-white font-body text-[15px] leading-relaxed text-ink-soft antialiased;
+    /* Safety net: nothing may make the page scroll sideways on phones. */
+    overflow-x: clip;
+  }
+  /* Grid/flex children default to min-width:auto, so a wide child (e.g. a scrolling thumbnail
+     row) would stretch the whole column past the screen. Let columns shrink to the viewport. */
+  .grid > * {
+    min-width: 0;
+  }
+  img,
+  video {
+    max-width: 100%;
   }
   h1, h2, h3, h4, h5 {
     @apply font-heading font-medium text-ink;

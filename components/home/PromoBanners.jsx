@@ -14,13 +14,13 @@ export default function PromoBanners() {
             href={p.href}
             className={cn("group relative flex min-h-[220px] items-center overflow-hidden rounded-3xl p-7", p.bg)}
           >
-            <div className={cn("relative z-10", image && "max-w-[55%]")}>
+            <div className={cn("relative z-10", image && "max-w-[58%] sm:max-w-[55%]")}>
               <p className="font-accent text-xs uppercase tracking-[0.2em] text-brand">{p.eyebrow}</p>
               <h3 className="mb-5 mt-2 text-2xl leading-tight">{p.title}</h3>
               <span className="link-underline">All products</span>
             </div>
             {image && (
-              <div className="absolute -right-6 bottom-0 top-0 my-auto aspect-square h-[85%] overflow-hidden rounded-full shadow-card transition duration-500 group-hover:-translate-x-2 group-hover:scale-105">
+              <div className="absolute -right-4 bottom-0 top-0 my-auto aspect-square h-[62%] overflow-hidden sm:-right-6 sm:h-[85%] rounded-full shadow-card transition duration-500 group-hover:-translate-x-2 group-hover:scale-105">
                 <Image src={image} alt="" fill sizes="220px" className="object-cover" />
               </div>
             )}

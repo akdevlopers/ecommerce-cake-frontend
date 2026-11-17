@@ -9,9 +9,9 @@ export default function ProductGallery({ images, name, active: controlled, onAct
   const [zoom, setZoom] = useState(null);
   const src = images[active] || images[0];
   return (
-    <div className="flex flex-col-reverse gap-4 md:flex-row">
+    <div className="flex min-w-0 flex-col-reverse gap-3 md:flex-row md:gap-4">
       {images.length > 1 && (
-        <div className="no-scrollbar flex gap-3 overflow-x-auto md:w-20 md:flex-col">
+        <div className="no-scrollbar flex min-w-0 gap-2 overflow-x-auto sm:gap-3 md:w-20 md:flex-col">
           {images.map((img, i) => (
             <button
               key={img}
@@ -19,7 +19,7 @@ export default function ProductGallery({ images, name, active: controlled, onAct
               aria-label={`Show image ${i + 1}`}
               aria-current={i === active}
               className={cn(
-                "relative aspect-square w-20 shrink-0 overflow-hidden rounded-xl border-2 bg-cream transition",
+                "relative aspect-square w-14 shrink-0 overflow-hidden rounded-xl border-2 bg-cream transition sm:w-20",
                 i === active ? "border-brand" : "border-transparent opacity-70 hover:opacity-100",
               )}
             >
