@@ -6,6 +6,17 @@ import { discountPercent } from "@/lib/format";
 import Price from "@/components/ui/Price";
 import { useCart } from "@/store/cart";
 import { useUi } from "@/store/ui";
+function Badge({ children, className = "", style, title }) {
+  return (
+    <span
+      title={title}
+      style={style}
+      className={`max-w-full truncate rounded-full px-2 py-0.5 text-[10px] font-semibold leading-4 text-white shadow-sm sm:px-2.5 sm:text-[11px] ${className}`}
+    >
+      {children}
+    </span>
+  );
+}
 export default function ProductCard({ product, priority = false }) {
   const add = useCart((s) => s.add);
   const openQuickView = useUi((s) => s.openQuickView);
@@ -37,25 +48,24 @@ export default function ProductCard({ product, priority = false }) {
           )}
         </Link>
 
-        <div className="pointer-events-none absolute left-3 top-3 flex flex-col gap-1.5">
-          {off > 0 && (
-            <span className="rounded-full bg-brand px-2.5 py-1 text-[11px] font-semibold text-white">-{off}%</span>
-          )}
-          {(product.highlights || []).slice(0, 2).map((h) => (
-            <span
-              key={h.id}
-              className="w-fit rounded-full px-2.5 py-1 text-[11px] font-semibold text-white"
-              style={{ background: h.color }}
-            >
-              {h.name}
-            </span>
-          ))}
-        </div>
-        {!product.inStock && (
-          <span className="absolute right-3 top-3 rounded-full bg-ink px-2.5 py-1 text-[11px] font-semibold text-white">
-            Sold out
-          </span>
-        )}
+        {/* Badges: one compact row — sold out / discount / first highlight, then "+N" for the rest. */}
+        {(() => {
+          const highlights = product.highlights || [];
+          const extra = highlights.slice(1);
+          if (product.inStock && !(off > 0) && !highlights.length) return null;
+          return (
+            <div className="pointer-events-none absolute left-2 right-2 top-2 flex flex-wrap items-start gap-1 sm:left-3 sm:right-3 sm:top-3 sm:gap-1.5">
+              {!product.inStock && <Badge className="bg-ink">Sold out</Badge>}
+              {off > 0 && <Badge className="bg-brand">-{off}%</Badge>}
+              {highlights[0] && <Badge style={{ background: highlights[0].color }}>{highlights[0].name}</Badge>}
+              {extra.length > 0 && (
+                <Badge className="pointer-events-auto cursor-default bg-white/90 !text-ink backdrop-blur" title={extra.map((h) => h.name).join(", ")}>
+                  +{extra.length}
+                </Badge>
+              )}
+            </div>
+          );
+        })()}
 
         <div className="absolute inset-x-0 bottom-3 flex justify-center gap-2 transition duration-300 md:translate-y-4 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100">
           <button

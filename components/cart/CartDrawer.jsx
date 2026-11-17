@@ -5,12 +5,9 @@ import { useEffect } from "react";
 import { Minus, Plus, ShoppingBag, Trash2, X } from "lucide-react";
 import { cartSubtotal, useCart } from "@/store/cart";
 import { money } from "@/lib/format";
-import { useSettings } from "@/components/layout/SettingsProvider";
 import { useHydrated } from "@/lib/useHydrated";
-import FreeDeliveryBar from "./FreeDeliveryBar";
 export default function CartDrawer() {
   const { items, drawerOpen, closeDrawer, setQty, remove } = useCart();
-  const settings = useSettings();
   const hydrated = useHydrated();
   useEffect(() => {
     if (!drawerOpen) return;
@@ -48,9 +45,6 @@ export default function CartDrawer() {
           </div>
         ) : (
           <>
-            <div className="px-6 pt-4">
-              <FreeDeliveryBar subtotal={subtotal} settings={settings} />
-            </div>
             <ul className="flex-1 divide-y divide-line overflow-y-auto px-6">
               {items.map((i) => (
                 <li key={i.key} className="flex gap-4 py-5">
@@ -94,7 +88,7 @@ export default function CartDrawer() {
                 <span>Subtotal</span>
                 <span className="font-heading text-lg font-medium text-ink">{money(subtotal)}</span>
               </div>
-              <p className="mb-5 text-xs text-ink-muted">Delivery charges calculated at checkout.</p>
+              <p className="mb-5 text-xs text-ink-muted">Free delivery on all orders.</p>
               <div className="grid grid-cols-2 gap-3">
                 <Link href="/cart" onClick={closeDrawer} className="btn-outline">
                   View cart

@@ -65,8 +65,9 @@ export default function AdminSettingsPage() {
         method: "PUT",
         body: JSON.stringify({
           ...form,
-          deliveryCharge: toPaise(form.deliveryCharge),
-          freeDeliveryAbove: toPaise(form.freeDeliveryAbove),
+          // Delivery is always free.
+          deliveryCharge: 0,
+          freeDeliveryAbove: 0,
         }),
       });
       setForm({ ...s, deliveryCharge: toRupees(s.deliveryCharge), freeDeliveryAbove: toRupees(s.freeDeliveryAbove) });
@@ -90,7 +91,7 @@ export default function AdminSettingsPage() {
 
   return (
     <form onSubmit={save} noValidate>
-      <AdminPageHeader title="Settings" subtitle="Store details, delivery charges and time slots">
+      <AdminPageHeader title="Settings" subtitle="Store details and delivery time slots">
         <button className="btn-brand btn-sm" disabled={saving}>
           {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />} Save changes
         </button>
@@ -181,8 +182,6 @@ export default function AdminSettingsPage() {
 
         <section className="card space-y-4 p-6">
           <h2 className="text-lg">Delivery</h2>
-          {field("Delivery charge (₹)", "deliveryCharge", { type: "number", min: 0 })}
-          {field("Free delivery above (₹, 0 = never free)", "freeDeliveryAbove", { type: "number", min: 0 })}
           <div>
             <span className="label">Delivery time slots</span>
             <ul className="flex flex-wrap gap-2">

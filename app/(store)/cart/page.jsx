@@ -4,18 +4,13 @@ import Link from "next/link";
 import { ShoppingBag, Trash2 } from "lucide-react";
 import PageBanner from "@/components/ui/PageBanner";
 import { QtyStepper } from "@/components/cart/CartDrawer";
-import FreeDeliveryBar from "@/components/cart/FreeDeliveryBar";
-import { useSettings } from "@/components/layout/SettingsProvider";
 import { cartSubtotal, useCart } from "@/store/cart";
 import { money } from "@/lib/format";
 import { useHydrated } from "@/lib/useHydrated";
 export default function CartPage() {
   const { items, setQty, remove } = useCart();
-  const settings = useSettings();
   const hydrated = useHydrated();
   const subtotal = cartSubtotal(items);
-  const free = settings.freeDeliveryAbove > 0 && subtotal >= settings.freeDeliveryAbove;
-  const delivery = free ? 0 : settings.deliveryCharge;
   return (
     <>
       <PageBanner title="Shopping Cart" crumbs={[{ label: "Cart" }]} />
@@ -88,19 +83,18 @@ export default function CartPage() {
 
             <aside className="h-fit rounded-3xl bg-cream p-6 lg:sticky lg:top-28">
               <h2 className="mb-5 text-2xl">Order Summary</h2>
-              <FreeDeliveryBar subtotal={subtotal} settings={settings} />
-              <dl className="mt-5 space-y-3 text-sm">
+              <dl className="space-y-3 text-sm">
                 <div className="flex justify-between">
                   <dt>Subtotal</dt>
                   <dd className="text-ink">{money(subtotal)}</dd>
                 </div>
                 <div className="flex justify-between">
                   <dt>Delivery</dt>
-                  <dd className="text-ink">{delivery ? money(delivery) : "Free"}</dd>
+                  <dd className="font-medium text-ink">Free</dd>
                 </div>
                 <div className="flex justify-between border-t border-cream-dark pt-3 text-base">
                   <dt className="font-medium text-ink">Total</dt>
-                  <dd className="font-heading text-xl font-medium text-ink">{money(subtotal + delivery)}</dd>
+                  <dd className="font-heading text-xl font-medium text-ink">{money(subtotal)}</dd>
                 </div>
               </dl>
               <Link href="/checkout" className="btn-brand mt-6 w-full">
