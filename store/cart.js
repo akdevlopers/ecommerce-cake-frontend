@@ -39,6 +39,36 @@ export const useCart = create()(
         })),
       remove: (key) => set((s) => ({ items: s.items.filter((i) => i.key !== key) })),
       clear: () => set({ items: [] }),
+      /**
+       * Brings the saved cart in line with the live product list from the DB: drops items whose
+       * product (or chosen variant) was deleted / hidden by the admin, and refreshes name, photo
+       * and price of the rest. Returns how many items were removed.
+       */
+      sync: (products) => {
+        let removed = 0;
+        set((s) => {
+          const byId = new Map(products.map((p) => [p.id, p]));
+          const items = [];
+          for (const i of s.items) {
+            const p = byId.get(i.productId);
+            const v = p?.variants?.find((x) => x.id === i.variantId);
+            if (!p || !v) {
+              removed++;
+              continue;
+            }
+            items.push({
+              ...i,
+              slug: p.slug,
+              name: p.name,
+              image: v.image || p.images?.[0] || "",
+              variantLabel: v.label,
+              unitPrice: v.price,
+            });
+          }
+          return { items };
+        });
+        return removed;
+      },
       openDrawer: () => set({ drawerOpen: true }),
       closeDrawer: () => set({ drawerOpen: false }),
     }),

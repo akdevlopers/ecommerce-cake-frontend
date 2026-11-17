@@ -6,7 +6,7 @@ import ProductDetail from "@/components/product/ProductDetail";
 import ProductInfoTabs from "@/components/product/ProductInfoTabs";
 import ProductCard from "@/components/product/ProductCard";
 import SectionHeading from "@/components/ui/SectionHeading";
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 export async function generateMetadata({ params }) {
   const data = await getProduct(params.slug).catch(() => null);
   if (!data) return { title: "Cake not found" };

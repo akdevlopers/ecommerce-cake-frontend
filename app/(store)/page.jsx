@@ -4,7 +4,8 @@ import PromoBanners from "@/components/home/PromoBanners";
 import ProductTabs from "@/components/home/ProductTabs";
 import { CtaBanner, Features, InstagramStrip } from "@/components/home/HomeSections";
 import SectionHeading from "@/components/ui/SectionHeading";
-export const revalidate = 60;
+// Products always come fresh from the DB (no stale page cache).
+export const dynamic = "force-dynamic";
 export default async function HomePage() {
   const [products, homeTabs] = await Promise.all([getProducts(), getHomeTabs()]);
   return (

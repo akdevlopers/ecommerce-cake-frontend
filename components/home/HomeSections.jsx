@@ -26,17 +26,19 @@ export function Features() {
     </section>
   );
 }
-export function CtaBanner() {
+export function CtaBanner({ photo = u("1587668178277-295251f900ce", 1600, 700) }) {
   return (
     <section className="container mt-24">
       <div className="relative overflow-hidden rounded-3xl bg-ink">
-        <Image
-          src={u("1587668178277-295251f900ce", 1600, 700)}
-          alt=""
-          fill
-          sizes="(min-width:1320px) 1280px, 100vw"
-          className="object-cover opacity-60"
-        />
+        {photo && (
+          <Image
+            src={photo}
+            alt=""
+            fill
+            sizes="(min-width:1320px) 1280px, 100vw"
+            className="object-cover opacity-60"
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-r from-ink/80 via-ink/40 to-transparent" />
         <div className="relative max-w-xl px-8 py-16 md:px-16 md:py-24">
           <p className="font-accent text-xs uppercase tracking-[0.25em] text-brand-light">Cake & Bakery</p>
@@ -58,7 +60,9 @@ export function CtaBanner() {
     </section>
   );
 }
-export function InstagramStrip() {
+/** Static Instagram photo strip. */
+export function InstagramStrip({ photos = INSTAGRAM }) {
+  if (!photos.length) return null;
   return (
     <section className="mt-24">
       <div className="container mb-8 text-center">
@@ -66,9 +70,9 @@ export function InstagramStrip() {
         <h2 className="text-3xl">Follow us on Instagram</h2>
       </div>
       <div className="grid grid-cols-3 md:grid-cols-6">
-        {INSTAGRAM.map((src, i) => (
+        {photos.map((src, i) => (
           <a
-            key={src}
+            key={`${i}-${src}`}
             href={SITE.instagram}
             target="_blank"
             rel="noreferrer"

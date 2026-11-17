@@ -23,7 +23,9 @@ export default function HeroSlider() {
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      {HERO_SLIDES.map((s, i) => (
+      {HERO_SLIDES.map((s, i) => {
+        const image = s.image;
+        return (
         <div
           key={s.title}
           className={cn(
@@ -48,16 +50,18 @@ export default function HeroSlider() {
             </div>
             <div className="relative mx-auto aspect-square w-full max-w-[520px]">
               <div className="absolute inset-[6%] rounded-full bg-white/70" />
-              <div className="absolute inset-[10%] overflow-hidden rounded-full shadow-card">
-                <Image
-                  src={s.image}
-                  alt=""
-                  fill
-                  priority={i === 0}
-                  sizes="(min-width:768px) 480px, 90vw"
-                  className="object-cover"
-                />
-              </div>
+              {image && (
+                <div className="absolute inset-[10%] overflow-hidden rounded-full shadow-card">
+                  <Image
+                    src={image}
+                    alt=""
+                    fill
+                    priority={i === 0}
+                    sizes="(min-width:768px) 480px, 90vw"
+                    className="object-cover"
+                  />
+                </div>
+              )}
               <span className="absolute right-[4%] top-[12%] flex h-24 w-24 rotate-12 flex-col items-center justify-center rounded-full bg-brand text-center text-white shadow-card">
                 <span className="font-accent text-[10px] uppercase tracking-widest">Baked</span>
                 <span className="font-heading text-xl font-semibold leading-none">Fresh</span>
@@ -66,7 +70,8 @@ export default function HeroSlider() {
             </div>
           </div>
         </div>
-      ))}
+        );
+      })}
 
       <div className="absolute inset-x-0 bottom-6 flex items-center justify-center gap-3">
         <button
